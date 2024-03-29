@@ -1,11 +1,19 @@
 :root {
-     
-}
-
-.btn {
-    
+    --title-color: #ff3333;
 }
 
 .bg-game {
     background-image: url("../img/background.jpg");
+}
+
+.version {
+    
+}
+
+.disclaimer {
+
+}
+
+.title {
+    color: var(--title-color);
 }
