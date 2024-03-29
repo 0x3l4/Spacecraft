@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spacecraft</title>
+
+    <link rel="shortcut icon" href="img/logo.svg.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <main class="container border border-primary">
+        <div id="app" class="row d-flex justify-content-end">
+            <div class="game">
+                <div class="col-12 text-center">
+                    <h1>Spacecraft</h1>
+                </div>
+            </div>
+            <div class="col-10 border border-primary">
+                <img src="img/background.jpg" class="img-fluid img-thumbnail" alt="Марс">
+            </div>
+            <div class="col-2 border border-primary">
+                <form>
+                    <div class="input-group mb-2">
+                        <input id="weight" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="fuel-weight" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="impulse" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="fuel-costs" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="max-touch-speed" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="g" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="time-limit" class="input-group-text" type="number">
+                    </div>
+                    <div class="input-group mb-2">
+                        <input id="initial-altitude" class="input-group-text" type="number">
+                    </div>
+                </form>
+
+                <div class="row col-12 d-flex justify-content-end">
+                    <button @click="engine" type="button" class="btn btn-primary">On</button>
+                    <button @click="Start()" type="button" class="btn btn-primary">Начать!</button>
+                </div>
+                <div class="row col-12 d-flex justify-content-end">
+                    <label>Текущая скорость: {{ curSpeed }}</label>
+                    <label>Прошло времени, с: {{ timePassed }}</label>
+                    <label>Высота: {{ curHeight }}</label>
+                    <label>Топливо: {{ curFuel }}</label>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </main>
+
+    <script src="js/vue.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/spaceship.js"></script>
+    <script src="js/spaceshipBuilder.js"></script>
+    <script src="js/spaceshipBuilderDirector.js"></script>
+    <script src="js/vueSpaceshipBuilder.js"></script>
+</body>
+
+</html>
