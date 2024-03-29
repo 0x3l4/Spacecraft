@@ -3,52 +3,25 @@
 // import VueSpaceshipBuilder from "./vueSpaceshipBuilder";
 // import SpaceshipBuilderDirector from "./spaceshipBuilderDirector";
 
+app = new Vue({
+    el: '#app',
+    data: {
+        version: 1.0,
+        isShowingHowToPlayPopup: false,
+        isEngineOn: false,
+    },
 
-// var game = new Vue({
-//     el: '#app',
-//     date: {
-//         isEngineOn: "false",
+    methods: {
+        OpenPopup: function() {
 
-//     },
-
-//     methods: {
-//         Start() {
-//             this.message = 'Что?'
-//         },
-
-//         EngineOn() {
-
-//         }
-//     }
-// });
-
-
-class Game {
-    static app = new Vue({
-        el: '#app',
-        date: {
-            isEngineOn: false,
-            message: "Hello!"
         },
-    
-        methods: {
-            Start: function() {
-                this.message = 'Что?';
-            },
-    
-            EngineOn: function() {
-    
-            }
+
+        Start: function() {
+            this.message = 'Что?';
+        },
+
+        EngineOn: function() {
+
         }
-    });;
-
-    static Main() {
-        console.log("Запуск Main");
-
-        let spaceshipBuilder = new VueSpaceshipBuilder();
-        let spaceshipDirector = new SpaceshipBuilderDirector(spaceshipBuilder);
-        let spaceship = spaceshipDirector.GetSpaceship();
     }
-}
-
-Game.Main();
+});
