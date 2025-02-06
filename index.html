@@ -4,94 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Spacecraft, Игра" />
+    <meta name="description" content="Игра Spacecraft на vue.js">
     <title>Spacecraft</title>
 
     <link rel="shortcut icon" href="img/logo.svg.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="css/style.css">
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
-<body>
-    <div id="app">
+<body class="bg-game">
+    <div id="app" :class="{ paused: isPaused}">
         <header>
             <div class="version">Version {{ version }}</div>
             <div class="disclaimer">© Copyright 2024 Alexander Vereta</div>
         </header>
 
-        <main>
-            <h1 class="title">Spacecraft</h1>
-            <div class="game">
-                <button title="Как играть"
-                    @click="openPopup">
+        <main class="container-fluid">
+            <div class="row">
+                <div class="game col-sm-12 col-md-9 text-center">
+                    <div v-if="!isRunning && !isPaused">
+                        <h1 v-if="timePassed >= timeLimit" class="text-danger">Время истекло!</h1>
+                        <h1 v-else-if="isWin" class="text-success">Победа!</h1>
+                        <h1 v-else class="text-danger">Проигрыш!</h1>
+                    </div>
+                    <h1 v-else-if="isPaused">Пауза!</h1>
+                    <h1 v-else>Spaceship</h1>
+                    <div class="border border-success col-12 playground">
+                        <div class="text-start stats container" style="color: #fff;">
+                            <label class="col-12">Текущая скорость: {{ CurSpeed }}</label>
+                            <label class="col-12">Прошло времени, с: {{ TimePassed }}</label>
+                            <label class="col-12">Высота: {{ CurAltitude }}</label>
+                            <label class="col-12">Топливо: {{ CurFuel }}</label>
+                        </div>
 
-                </button>
-            </div>
-        </main>
-
-        <!-- <main class="container border border-primary">
-            <div class="row d-flex justify-content-end">
-                <div class="game">
-                    <div class="col-12 text-center">
-                        <h1>Spacecraft</h1>
+                        <div>
+                            <img id="spaceship" class="spaceship position-relative moving-object"
+                                :class="{ dangerspaceship: isDeath }" :style="{ bottom: CurAltitude - 263 + 'px'}"
+                                src="./img/spaceship.png">
+                            <div v-if="isEngineOn && CurFuel > 0 && isRunning">
+                                <img class="fire position-relative moving-object" src="img/fire.png"
+                                    :style="{ bottom: CurAltitude - 263 + 'px'}">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-10 border border-primary">
-                    <img src="img/background.jpg" class="img-fluid img-thumbnail" alt="Марс">
-                </div>
-                <div class="col-2 border border-primary">
-                    <form>
-                        <div class="input-group mb-2">
-                            <input id="weight" class="input-group-text" type="number">
+
+                <div class="col-sm-12 col-md-3 menu">
+                    <form action="">
+                        <v-input :isdisabled="isRunning" v-model="weightSpaceship" min="0" max="10000" text="WS"
+                            title="Вес аппарата, кг."></v-input>
+                        <div v-if="!isRunning">
+                            <v-input :isdisabled="isRunning" v-model="currentFuel" min="0" max="10000" text="WF"
+                            title="Вес топлива, кг."></v-input>
                         </div>
-                        <div class="input-group mb-2">
-                            <input id="fuel-weight" class="input-group-text" type="number">
+                        <div v-else>
+                            <v-input :isdisabled="isRunning" v-model="maxFuel" min="0" max="10000" text="WF"
+                            title="Вес топлива, кг."></v-input>
                         </div>
-                        <div class="input-group mb-2">
-                            <input id="impulse" class="input-group-text" type="number">
+                        <v-input :isdisabled="isRunning" v-model="impulse" min="0" max="10000" text="WP"
+                            title="Вес импульса, кг."></v-input>
+                        <v-input :isdisabled="isRunning" v-model="fuelCosts" min="0" max="10000" text="ER"
+                            title="Скорость истечения, м.с."></v-input>
+                        <v-input :isdisabled="isRunning" v-model="maxTouchSpeed" min="0" max="10000" text="MS"
+                            title="Максимальная скорость касания, м.с."></v-input>
+                        <v-input :isdisabled="isRunning" v-model="acceleration" min="0" max="10000" text="AF"
+                            title="Ускорение свободного падения, м.с."></v-input>
+                        <v-input :isdisabled="isRunning" v-model="timeLimit" min="0" max="10000" text="TM"
+                            title="Лимит времени, с."></v-input>
+                        <div v-if="!isRunning">
+                            <v-input :isdisabled="isRunning" v-model="currentAltitude" min="0" max="10000" text="ID"
+                            title="Начальное расстояние, м."></v-input>
                         </div>
-                        <div class="input-group mb-2">
-                            <input id="fuel-costs" class="input-group-text" type="number">
+                        <div v-else>
+                            <v-input :isdisabled="isRunning" :value="startAltitude" min="0" max="10000" text="ID"
+                            title="Начальное расстояние, м."></v-input>
                         </div>
-                        <div class="input-group mb-2">
-                            <input id="max-touch-speed" class="input-group-text" type="number">
-                        </div>
-                        <div class="input-group mb-2">
-                            <input id="g" class="input-group-text" type="number">
-                        </div>
-                        <div class="input-group mb-2">
-                            <input id="time-limit" class="input-group-text" type="number">
-                        </div>
-                        <div class="input-group mb-2">
-                            <input id="initial-altitude" class="input-group-text" type="number">
-                        </div>
+                        
                     </form>
 
-                    <div class="row col-12 d-flex justify-content-end">
-                        <button @click="engine" type="button" class="btn btn-primary">On</button>
-                        <button @click="Start()" type="button" class="btn btn-primary">Начать!</button>
-                    </div>
-                    <div class="row col-12 d-flex justify-content-end">
-                        <label>Текущая скорость: {{ curSpeed }}</label>
-                        <label>Прошло времени, с: {{ timePassed }}</label>
-                        <label>Высота: {{ curHeight }}</label>
-                        <label>Топливо: {{ curFuel }}</label>
-                    </div>
+                    <v-button v-if="!isRunning" text="Об игре" @click="OpenPopup"></v-button>
+                    <v-button v-else-if="isRunning && !isEngineOn" text="ON" @click="isEngineOn = true"></v-button>
+                    <v-button v-else-if="isRunning && isEngineOn" text="OFF" @click="isEngineOn = false"></v-button>
+                    <v-button v-if="isPaused" text="Начать" @click="Start"></v-button>
+                    <v-button v-else @click="Stop" text="Стоп"></v-button>
+                    <v-popup v-if="isShowingHowToPlayPopup" header="Spececraft"
+                        text="Вы управляете американским пилотируемым космическим кораблём Falcon-9. Ваша задача - совершить успешную посадку корабля на территорию Марса. Скорость корабля при приземлении не должна превышать максимума."
+                        @closed="ClosePopup">
+                    </v-popup>
 
                 </div>
-
-
             </div>
-        </main> -->
+        </main>
     </div>
 
-
-    <script src="js/vue.js"></script>
-    <script src="js/game.js"></script>
     <script src="js/spaceship.js"></script>
-    <script src="js/spaceshipBuilder.js"></script>
-    <script src="js/spaceshipBuilderDirector.js"></script>
-    <script src="js/vueSpaceshipBuilder.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/loop.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/app.js"></script>
 </body>
 
 </html>

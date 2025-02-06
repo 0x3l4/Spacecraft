@@ -1,0 +1,256 @@
+:root {
+    --title-color: #ff3333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #0e153880;
+    
+}
+
+main {
+    padding: 20px 20px 20px 20px;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: gray;
+    font-family: sans-serif;
+}
+
+.bg-game {
+  
+    /* background-image: url("../img/background.jpg"); */
+    /* background-image: url("../img/Grid2.jpg"); */
+    background: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url('../img/Grid2.jpg');
+    /* background-image: url("../img/background2.jpg"); */
+    /* background-image: url("../img/background5.png"); */
+}
+
+.stats {
+  font-size: larger;
+  
+}
+
+.paused {
+  background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.0) );
+}
+
+.paused img {
+  opacity: 0.6;
+}
+
+.input-style {
+  background-color: #00000080;
+}
+
+.version {
+    flex: 1;
+    text-align: start
+}
+
+.disclaimer {
+    flex: 1;
+    text-align: end;
+}
+
+.menu {
+  margin-top: 0px;
+  
+  display: inline-block;
+  padding-top: 10px;
+}
+
+.title {
+  text-align: center;
+  text-shadow:
+    1px 1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    -1px -1px 0 white;
+  color: #040a29;
+  transition: all 1s;
+}
+
+.spaceship {
+  width: 41px;
+}
+
+.fire {
+  width: 23px;
+}
+
+.playground {
+  height: 500px;
+  /* padding-top: 300px; */
+}
+
+.moving-object {
+  position: absolute;
+  animation: moveDown 0.1s linear infinite;
+}
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: normal;
+    user-select: none;
+}
+
+.dangerspaceship {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: #ff3333;
+  border-width: 10px;
+  /* background-blend-mode: overlay; */
+}
+
+.button-container a {
+    position: relative;
+    width: 160px;
+    height: 60px;
+    display: inline-block;
+    background: #fff;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.button-container a:before,
+.button-container a:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transition: 0.5s;
+    background: #f00
+}
+
+.button-container a:nth-child(1):before,
+.button-container a:nth-child(1):after {
+    background: linear-gradient(45deg, #00ccff, #000, #d400d4)
+}
+
+
+.button-container a:hover:before {
+    inset: -3px;
+}
+
+.button-container a:hover:after {
+    inset: -3px;
+    filter: blur(10px);
+}
+
+.button-container a span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background: #000;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    border: 1px solid #040a29;
+    border: 1px solid #fff;
+    overflow: hidden;
+}
+
+.button-container a span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.075);
+    opacity: 0.1;
+    transform: skew(25deg)
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080;
+    display: table;
+    transition: opacity 0.3s ease;
+  }
+  
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+  .modal-container {
+    overflow: auto;
+    max-width: calc(100vh - 190px);
+    max-height: calc(100vh - 190px);
+    width: 550px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #0e1538;
+    border: 2px solid white;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px white, -1px 1px 1px white,
+      1px -1px 1px white, -1px -1px 1px white, 0 0 10px white,
+      0 0 10px white;
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  
+  .modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+  }
+  
+  .modal-description {
+    text-align: left;
+    margin: 20px 0;
+    color: white;
+  }
+  
+  .modal-default-button {
+    float: right;
+  }
+  
+  /*
+   * The following styles are auto-applied to elements with
+   * transition="modal" when their visibility is toggled
+   * by Vue.js.
+   *
+   * You can easily play with the modal transition by editing
+   * these styles.
+   */
+  
+  .modal-enter {
+    opacity: 0;
+  }
+  
+  .modal-leave-active {
+    opacity: 0;
+  }
+  
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
